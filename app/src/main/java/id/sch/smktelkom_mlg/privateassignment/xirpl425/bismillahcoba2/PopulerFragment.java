@@ -59,6 +59,7 @@ public class PopulerFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
 
+
         movieAdapter = new MovieAdapter(movieModelArrayList);
         recyclerView.setAdapter(movieAdapter);
 
@@ -75,7 +76,8 @@ public class PopulerFragment extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            if (response.equals("1")) {
+                            String page = response.getString("page");
+                            if (page.equals("1")) {
 
                                 JSONArray dataArray = response.getJSONArray("results");
                                 for (int j = 0; j < dataArray.length(); j++) {
@@ -83,6 +85,7 @@ public class PopulerFragment extends Fragment {
                                     JSONObject dataObject = dataArray.getJSONObject(j);
                                     modelMovie.setTitle(dataObject.getString("title"));
                                     modelMovie.setOverview(dataObject.getString("overview"));
+                                    modelMovie.setPoster_path(dataObject.getString("poster_path"));
                                     movieModelArrayList.add(modelMovie);
                                 }
                                 movieAdapter.notifyDataSetChanged();
